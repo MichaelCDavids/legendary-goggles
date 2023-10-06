@@ -1,2 +1,2 @@
 # legendary-goggles
-React Full Stack Project
+Taste-PC
