@@ -1,23 +1,38 @@
-import logo from './logo.svg';
+
+import React, { useState } from 'react';
 import './App.css';
+import SignalForm from './SignalForm';
+import Dashboard from './Dashboard';
 
 function App() {
+  const [userTier, setUserTier] = useState('Free'); // Default to Free tier
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Trading Signals App</h1>
       </header>
+      <div style={{ padding: '20px' }}>
+        {/* Simple tier selector for demonstration */}
+        <div>
+          <h2>Select Your Tier:</h2>
+          <select value={userTier} onChange={(e) => setUserTier(e.target.value)}>
+            <option value="Free">Free</option>
+            <option value="Basic">Basic</option>
+            <option value="Gold">Gold</option>
+          </select>
+        </div>
+
+        <hr />
+
+        {/* Trader's view to post signals */}
+        <SignalForm />
+
+        <hr />
+
+        {/* Client's view of the dashboard */}
+        <Dashboard userTier={userTier} />
+      </div>
     </div>
   );
 }
