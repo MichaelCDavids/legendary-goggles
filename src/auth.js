@@ -1,94 +1,90 @@
-
-import { auth, facebookProvider } from './firebase';
+import { auth, db } from './firebase';
 import { 
-  signInWithPopup, 
+  signInWithRedirect, 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
   sendPasswordResetEmail, 
   signOut,
-  signInWithPhoneNumber
+  GoogleAuthProvider,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+  getRedirectResult
 } from 'firebase/auth';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
-const createMockUser = (role) => ({
-  user: {
-    uid: 'mock-uid',
-    displayName: role === 'admin' ? 'Mock Admin' : 'Mock User',
-    email: role === 'admin' ? 'admin@mock.com' : 'user@mock.com',
-    photoURL: 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg',
-    // Add a role property to the mock user
-    role: role,
-  },
-});
+const googleProvider = new GoogleAuthProvider();
 
-const signInWithGoogle = async () => {
-  try {
-    // Mock the Google sign-in for a regular user
-    return Promise.resolve(createMockUser('user'));
-  } catch (error) {
+const createUserProfile = async (user) => {
+  const userRef = doc(db, 'users', user.uid);
+  const userDoc = await getDoc(userRef);
+
+  if (!userDoc.exists()) {
+    const { displayName, email, photoURL } = user;
+    await setDoc(userRef, {
+      displayName,
+      email,
+      photoURL,
+      role: 'member',
+      tier: 'Free'
+    });
   }
 };
 
-const signInWithGoogleAdmin = async () => {
+export const signInWithGoogle = async () => {
   try {
-    // Mock the Google sign-in for an admin user
-    return Promise.resolve(createMockUser('admin'));
+    await signInWithRedirect(auth, googleProvider);
   } catch (error) {
+    console.error("Error signing in with Google: ", error);
   }
 };
 
-const signInWithFacebook = async () => {
+export const handleRedirectResult = async () => {
   try {
-    await signInWithPopup(auth, facebookProvider);
+    const result = await getRedirectResult(auth);
+    if (result) {
+      await createUserProfile(result.user);
+    }
   } catch (error) {
+    console.error("Error handling redirect result: ", error);
   }
 };
 
-const signInWithPhone = async (phoneNumber) => {
+export const signInWithEmail = async (email, password) => {
   try {
-    // This is a simplified example. In a real application, you would need to handle the reCAPTCHA verification.
-    const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier);
-    // In a real app, you would prompt the user to enter the code sent to their phone.
-    const code = window.prompt("Enter the code sent to your phone:");
-    await confirmationResult.confirm(code);
+    const result = await signInWithEmailAndPassword(auth, email, password);
+    await createUserProfile(result.user);
   } catch (error) {
+    console.error("Error signing in with email: ", error);
   }
 };
 
-const signInWithEmail = async (email, password) => {
+export const signUpWithEmail = async (email, password) => {
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const result = await createUserWithEmailAndPassword(auth, email, password);
+    await createUserProfile(result.user);
   } catch (error) {
+    console.error("Error signing up with email: ", error);
   }
 };
 
-const signUpWithEmail = async (email, password) => {
-  try {
-    await createUserWithEmailAndPassword(auth, email, password);
-  } catch (error) {
-  }
+export const sendPasswordReset = (email) => {
+  return sendPasswordResetEmail(auth, email);
 };
 
-const sendPasswordReset = async (email) => {
-  try {
-    await sendPasswordResetEmail(auth, email);
-  } catch (error) {
-  }
+export const signOutUser = () => {
+  return signOut(auth);
 };
 
-const signOutUser = async () => {
-  try {
-    await signOut(auth);
-  } catch (error) {
-  }
+export const setUpRecaptcha = (recaptchaContainer) => {
+  const recaptchaVerifier = new RecaptchaVerifier(auth, recaptchaContainer, {
+    'size': 'invisible',
+    'callback': (response) => {
+      console.log("reCAPTCHA solved");
+    }
+  });
+  return recaptchaVerifier;
 };
 
-export {
-  signInWithGoogle,
-  signInWithGoogleAdmin,
-  signInWithFacebook,
-  signInWithPhone,
-  signInWithEmail,
-  signUpWithEmail,
-  sendPasswordReset,
-  signOutUser
+export const signInWithPhone = (phoneNumber, appVerifier) => {
+  return signInWithPhoneNumber(auth, phoneNumber, appVerifier);
 };

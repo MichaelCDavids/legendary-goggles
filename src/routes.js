@@ -12,6 +12,7 @@ import About from './About';
 import Terms from './Terms';
 import POPIA from './POPIA';
 import LandingPage from './LandingPage';
+import Profile from './Profile';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
       { path: '/dashboard', element: <Dashboard /> },
       { path: '/signin', element: <SignIn /> },
       { path: '/signup', element: <SignUp /> },
+      { path: '/profile', element: <Profile /> },
       { path: '/signals/:signalId', element: <SignalDetailPage /> },
       { path: '/post-success/:signalId', element: <SignalPostConfirmation /> },
       { path: '/post-signal', element: <SignalForm /> },

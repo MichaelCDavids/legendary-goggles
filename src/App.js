@@ -1,32 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { Outlet, Link } from 'react-router-dom';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth, db } from './firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import React, { useState, useContext, useEffect } from 'react';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { auth } from './firebase';
 import './App.css';
 import Footer from './Footer';
+import { UserContext, UserProvider } from './UserContext';
+import { handleRedirectResult } from './auth';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [user, setUser] = useState(null);
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const docRef = doc(db, 'users', user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setUser({ ...user, ...docSnap.data() });
-        } else {
-          setUser(user);
-        }
-      } else {
-        setUser(null);
-      }
-    });
-
-    return () => unsubscribe();
+    handleRedirectResult();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -42,11 +35,14 @@ function App() {
           </button>
           <div className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
             <Link to="/dashboard"><span role="img" aria-label="dashboard">🏠</span> Dashboard</Link>
-            <Link to="/post-signal"><span role="img" aria-label="post signal">📝</span> Post Signal</Link>
+            {user && user.tier === 'admin' && <Link to="/post-signal"><span role="img" aria-label="post signal">📝</span> Post Signal</Link>}
             <Link to="/about"><span role="img" aria-label="about">ℹ️</span> About</Link>
             <Link to="/terms"><span role="img" aria-label="terms and conditions">📜</span> Terms</Link>
             {user ? (
-              <button onClick={() => auth.signOut()}>Sign Out</button>
+              <>
+                <Link to="/profile"><span role="img" aria-label="profile">👤</span> Profile</Link>
+                <button onClick={() => auth.signOut()}>Sign Out</button>
+              </>
             ) : (
               <>
                 <Link to="/signin"><span role="img" aria-label="sign in">🚪</span> Sign In</Link>
@@ -64,4 +60,10 @@ function App() {
   );
 }
 
-export default App;
+const AppWrapper = () => (
+  <UserProvider>
+    <App />
+  </UserProvider>
+);
+
+export default AppWrapper;

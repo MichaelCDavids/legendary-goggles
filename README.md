@@ -11,6 +11,7 @@ This is a simple React application that demonstrates how to use Firebase to crea
 *   **User Authentication:** Users can sign in with Google, Facebook, phone number, or email.
 *   **QR Code Generation:** Trade signals can be embedded in a QR code to restrict access.
 *   **UI/UX Enhancements:** Polished form elements and an improved user interface.
+*   **Modern Landing Page:** A new landing page with a clean and modern design.
 *   **Metatrader 5 Integration:** Ability to post signals directly from Metatrader 5.
 
 ## Roadmap
@@ -22,6 +23,8 @@ This is a simple React application that demonstrates how to use Firebase to crea
 *   [x] User Authentication
 *   [x] QR Code Generation
 *   [x] UI/UX Enhancements
+*   [x] Modern Landing Page
+*   [ ] Firebase Storage Integration
 *   [ ] Metatrader 5 Integration
 
 ## Getting Started

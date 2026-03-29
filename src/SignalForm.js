@@ -1,9 +1,9 @@
-
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from './firebase';
 import { useNavigate } from 'react-router-dom';
 import './SignalForm.css';
+import { UserContext } from './UserContext';
 
 const timeframes = [
   '1-minute', '5-minute', '15-minute', '30-minute',
@@ -34,6 +34,7 @@ const assetGroups = [
 ];
 
 const SignalForm = () => {
+  const { user } = useContext(UserContext);
   const [asset, setAsset] = useState(assetGroups[0].options[0]);
   const [orderType, setOrderType] = useState('Buy');
   const [volume, setVolume] = useState('');
@@ -76,6 +77,15 @@ const SignalForm = () => {
       setStatus('error');
     }
   };
+
+  if (!user || user.tier !== 'admin') {
+    return (
+      <div className="signal-form-container">
+        <h2>Access Denied</h2>
+        <p>You do not have permission to post a trade signal.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="signal-form-container">

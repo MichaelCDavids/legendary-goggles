@@ -1,21 +1,19 @@
 
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { getAuth, FacebookAuthProvider } from 'firebase/auth';
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
-// TODO: Replace with your web app's Firebase configuration
-export const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID",
-  measurementId: "YOUR_MEASUREMENT_ID"
-};
+const firebaseConfig = {
+  apiKey: "AIzaSyDi-udeLvnLa19ROUTOA-QNI1wP2VxszXs",
+  authDomain: "legendary-goggles-297529-77b0d.firebaseapp.com",
+  projectId: "legendary-goggles-297529-77b0d",
+  storageBucket: "legendary-goggles-297529-77b0d.firebasestorage.app",
+  messagingSenderId: "559424686391",
+  appId: "1:559424686391:web:6148de8e0347b65286f2b2"
+}; 
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-export const auth = getAuth(app);
-export const facebookProvider = new FacebookAuthProvider();
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+export { auth, db };
