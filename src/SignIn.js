@@ -50,7 +50,10 @@ const SignIn = () => {
         </div>
         <button type="submit">Sign In</button>
       </form>
-      <button onClick={signInWithGoogle}>Sign In with Google</button>
+      <button onClick={signInWithGoogle} className="google-btn">
+        <div className="google-icon"></div>
+        Sign In with Google
+      </button>
       <p>
         Don't have an account? <Link to="/signup">Sign Up</Link>
       </p>

@@ -1,14 +1,14 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from './firebase';
+import Spinner from './Spinner';
+import './SignalDetailPage.css';
 
-const SignalDetailPage = ({ userTier }) => {
+const SignalDetailPage = () => {
   const { signalId } = useParams();
   const [signal, setSignal] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchSignal = async () => {
@@ -17,59 +17,51 @@ const SignalDetailPage = ({ userTier }) => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          const signalData = { id: docSnap.id, ...docSnap.data() };
-          
-          // Authorization check
-          if (userTier === 'Gold' || 
-              (userTier === 'Basic' && (signalData.requiredTier === 'Basic' || signalData.requiredTier === 'Free')) || 
-              (userTier === 'Free' && signalData.requiredTier === 'Free')) {
-            setSignal(signalData);
-          } else {
-            setError('You do not have the required tier to view this signal.');
-          }
+          setSignal({ id: docSnap.id, ...docSnap.data() });
         } else {
-          setError('Signal not found.');
+          console.log("No such document!");
         }
-      } catch (err) {
-        setError('Error fetching signal.');
-        console.error(err);
+      } catch (error) {
+        console.error("Error fetching document: ", error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchSignal();
-  }, [signalId, userTier]);
+  }, [signalId]);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  const toDate = (timestamp) => {
+    if (timestamp && timestamp.seconds) {
+      return new Date(timestamp.seconds * 1000).toLocaleString();
+    }
+    return 'N/A';
+  };
 
-  if (error) {
-    return <p>{error}</p>;
-  }
+  if (loading) return <Spinner />;
+  if (!signal) return <p>Signal not found.</p>;
 
   return (
-    <div>
-      {signal ? (
-        <div className="signal-detail">
-          <h2>{signal.asset} - {signal.tradeType}</h2>
-          <p><strong>Entry Price:</strong> {signal.entryPoint}</p>
-          <p><strong>Stop Loss:</strong> {signal.stopLoss}</p>
-          <p><strong>Take Profit:</strong> {signal.takeProfit}</p>
-          <p><strong>Timeframe:</strong> {signal.timeframe}</p>
-          <p><strong>Risk/Reward Ratio:</strong> {signal.riskRewardRatio}</p>
-          <p><strong>Signal Provider:</strong> {signal.signalProvider}</p>
-          <p><strong>Confidence Level:</strong> {signal.confidenceLevel}</p>
-          <p><strong>Market Analysis:</strong> {signal.marketAnalysis}</p>
-          <p><strong>Required Tier:</strong> {signal.requiredTier}</p>
-          {signal.createdAt && (
-            <p><small>Posted at: {new Date(signal.createdAt.seconds * 1000).toLocaleString()}</small></p>
-          )}
-        </div>
-      ) : (
-        <p>Signal details not available.</p>
-      )}
+    <div className="signal-detail-container">
+      <h2>Signal Details</h2>
+      <div className="signal-info-grid">
+        <p><strong>Asset:</strong> {signal.asset}</p>
+        <p><strong>Order Type:</strong> {signal.orderType}</p>
+        <p><strong>Volume:</strong> {signal.volume}</p>
+        <p><strong>Entry Point:</strong> {signal.entryPoint}</p>
+        <p><strong>Take Profit:</strong> {signal.takeProfit}</p>
+        <p><strong>Stop Loss:</strong> {signal.stopLoss}</p>
+        <p><strong>Timeframe:</strong> {signal.timeframe}</p>
+        <p><strong>Required Tier:</strong> {signal.requiredTier}</p>
+        <p><strong>Posted At:</strong> {toDate(signal.createdAt)}</p>
+        <p><strong>Risk/Reward Ratio:</strong> {signal.riskRewardRatio}</p>
+        <p><strong>Signal Provider:</strong> {signal.signalProvider}</p>
+        <p><strong>Confidence Level:</strong> {signal.confidenceLevel}</p>
+      </div>
+      <div className="market-analysis">
+        <h3>Market Analysis</h3>
+        <p>{signal.marketAnalysis || 'No analysis provided.'}</p>
+      </div>
     </div>
   );
 };

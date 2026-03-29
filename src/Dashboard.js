@@ -10,11 +10,16 @@
 
 import React from 'react';
 import Trades from './Trades';
+import Tooltip from './Tooltip';
 
-const Dashboard = () => {
+const Dashboard = ({ user }) => {
+  const userMembership = user ? user.membership : 'free'; // Default to free for logged-out users
+
   return (
     <div className="dashboard">
-      <Trades />
+      <Tooltip text="Upgrade to a premium membership to view all trade details.">
+        <Trades membership={userMembership} />
+      </Tooltip>
     </div>
   );
 };

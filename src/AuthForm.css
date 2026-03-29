@@ -1,63 +1,98 @@
 .auth-form {
   max-width: 400px;
   margin: 40px auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+  padding: 30px;
+  border-radius: 8px;
+  background-color: rgba(44, 44, 44, 0.8);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
 .auth-form h2 {
-  text-align: center;
   margin-bottom: 20px;
+  color: #f0f0f0;
+  text-align: center;
+  font-weight: 700;
 }
 
 .auth-form input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #555;
   border-radius: 4px;
+  background-color: #333;
+  color: #f0f0f0;
   box-sizing: border-box;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
+
+.auth-form input:focus {
+  outline: none;
+  border-color: #c0392b;
+  box-shadow: 0 0 5px rgba(192, 57, 43, 0.5);
+}
+
 
 .auth-form button {
   width: 100%;
-  padding: 10px;
-  background-color: #007bff;
+  padding: 12px;
+  background-color: #c0392b;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  transition: background-color 0.3s;
 }
 
 .auth-form button:hover {
-  background-color: #0056b3;
+  background-color: #a93226;
 }
 
 .auth-form p {
   text-align: center;
-  margin-top: 15px;
+  margin-top: 20px;
+  color: #f0f0f0;
 }
 
 .error-message {
-  color: #ff0000;
-  font-size: 0.8em;
-  margin-top: -10px;
-  margin-bottom: 10px;
+  color: #ff6b6b;
+  font-size: 0.9em;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
-.google-signin-btn {
+.google-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
-  color: black;
-  border: 1px solid #ccc;
+  width: 100%;
+  padding: 12px;
+  background-color: #4285F4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  transition: background-color 0.3s;
   margin-top: 10px;
 }
 
-.google-signin-btn img {
-  height: 20px;
-  margin-right: 10px;
+.google-btn:hover {
+  background-color: #357ae8;
+}
+
+.google-icon {
+  margin-right: 12px;
+  width: 22px;
+  height: 22px;
+  background: url('https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg') no-repeat center center;
+  background-size: contain;
+}
+
+.google-btn-container {
+    margin-top: 10px;
 }

@@ -1,5 +1,7 @@
+
 .trades-container {
   padding: 20px;
+  color: #f1f1f1;
 }
 
 .trades-header {
@@ -7,6 +9,10 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+}
+
+.trades-header h2 {
+    color: #f1f1f1;
 }
 
 .controls {
@@ -21,20 +27,21 @@
 
 .trades-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
 .trade-card {
   display: flex;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  background-color: #2a2a2a;
+  border-radius: 10px;
   padding: 15px;
-  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
 .trade-info {
   flex-grow: 1;
+  color: #f1f1f1;
 }
 
 .trade-qr {
@@ -45,6 +52,56 @@
 .trade-qr svg, .trade-qr canvas {
     width: 100px;
     height: 100px;
+    background-color: white;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: #333;
+  border: 1px solid #555;
+  border-radius: 5px;
+  padding: 8px 16px;
+  margin: 0 5px;
+  cursor: pointer;
+  color: #f1f1f1;
+  transition: background-color 0.3s;
+}
+
+.pagination button:hover {
+  background-color: #00aeff;
+}
+
+.pagination button:disabled {
+  background-color: #555;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  margin: 0 10px;
+  font-weight: bold;
+  color: #f1f1f1;
+}
+
+
+@media (max-width: 1200px) {
+  .trades-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .trades-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
@@ -53,13 +110,7 @@
     gap: 15px;
   }
 
-  .trade-card {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .trade-qr {
-    margin-left: 0;
-    margin-top: 15px;
+  .trades-list {
+    grid-template-columns: 1fr;
   }
 }

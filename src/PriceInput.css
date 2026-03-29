@@ -1,0 +1,63 @@
+.price-input-wrapper {
+  margin-bottom: 15px;
+}
+
+.price-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.price-input__field {
+  background-color: #3d3d3d;
+  color: #f1f1f1;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #555;
+  width: 100%;
+  font-size: 1em;
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.price-input__field::-webkit-inner-spin-button, 
+.price-input__field::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.price-input__controls {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  bottom: 1px;
+  display: flex;
+  flex-direction: column;
+}
+
+.price-input__button {
+  background-color: #333;
+  border: none;
+  color: #f1f1f1;
+  width: 24px;
+  cursor: pointer;
+  padding: 0;
+  font-size: 10px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.price-input__button:hover {
+  background-color: #dc3545;
+}
+
+.price-input__button--up {
+  border-radius: 0 4px 0 0;
+  border-bottom: 1px solid #555;
+}
+
+.price-input__button--down {
+  border-radius: 0 0 4px 0;
+}

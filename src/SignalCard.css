@@ -1,0 +1,51 @@
+.trade-card {
+  background-color: #333;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  transition: box-shadow 0.3s ease;
+}
+
+.trade-card:hover {
+  box-shadow: 0 0 15px rgba(220, 53, 69, 0.5);
+}
+
+.trade-info h3 {
+  margin: 0 0 10px;
+  color: #dc3545;
+  font-size: 1.4em;
+}
+
+.trade-info p {
+  margin: 5px 0;
+  font-size: 1em;
+  color: #f1f1f1;
+}
+
+.trade-qr {
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.trade-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.trade-card.locked {
+  background-color: #444;
+  justify-content: center;
+  text-align: center;
+}
+
+.trade-card.locked .trade-info h3 {
+  color: #aaa;
+}
+
+.trade-card.locked p {
+  color: #888;
+}

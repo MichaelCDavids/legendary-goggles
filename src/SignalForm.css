@@ -1,62 +1,88 @@
 
 .signal-form-container {
-  background-color: #ffffff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  max-width: 500px;
-  margin: 20px auto;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #2c3e50; /* Dark blue-grey */
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid #34495e; /* Slightly lighter border */
 }
 
-.signal-form-container h2 {
-  text-align: center;
-  color: #333;
-  margin-bottom: 20px;
+h2 {
+    text-align: center;
+    color: #ecf0f1; /* Light grey text */
+    margin-bottom: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .signal-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
 }
 
-.signal-form div {
-  display: flex;
-  flex-direction: column;
+.form-group {
+    display: flex;
+    flex-direction: column;
 }
 
-.signal-form label {
-  margin-bottom: 8px;
-  color: #555;
-  font-weight: bold;
+.form-group label {
+    color: #dc3545; /* Vibrant red */
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 0.9em;
 }
 
-.signal-form input, 
-.signal-form select {
-  padding: 12px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  transition: border-color 0.3s, box-shadow 0.3s;
+.signal-form input,
+.signal-form select,
+.signal-form textarea {
+    padding: 12px 15px;
+    border-radius: 6px;
+    border: 2px solid #34495e; /* Matching the container border */
+    background-color: #3b4b5a; /* Slightly lighter than the container */
+    color: #ecf0f1;
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.signal-form input:focus, 
-.signal-form select:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0,123,255,0.5);
-  outline: none;
+.signal-form input:focus,
+.signal-form select:focus,
+.signal-form textarea:focus {
+    outline: none;
+    border-color: #dc3545; /* Red border on focus */
+    box-shadow: 0 0 8px rgba(220, 53, 69, 0.5);
+}
+
+.signal-form textarea {
+    min-height: 120px;
+    resize: vertical;
 }
 
 .signal-form button {
-  padding: 12px 20px;
-  border-radius: 5px;
-  border: none;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
+    padding: 15px;
+    border: none;
+    border-radius: 6px;
+    background-color: #dc3545;
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.signal-form button:hover {
-  background-color: #0056b3;
+.signal-form button:hover:not(:disabled) {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+.signal-form button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: #ff6b6b; /* Softer red */
+    text-align: center;
+    margin-top: 15px;
 }

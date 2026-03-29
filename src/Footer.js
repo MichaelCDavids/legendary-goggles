@@ -1,20 +1,21 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Footer.css';
 
 const Footer = () => {
   return (
     <footer className="footer-container">
       <div className="footer-section">
-        <h3>Using Notes Headings</h3>
-        <p>This section can contain important notes on how to use the signals, trading strategies, or platform features. For example, explanations of different order types or risk management principles.</p>
+        <h3>About Trade Signals Markets</h3>
+        <p>Your go-to platform for reliable trading signals and market insights.</p>
       </div>
       <div className="footer-section">
-        <h3>Important Reads</h3>
+        <h3>Quick Links</h3>
         <ul>
-          <li><a href="#risk-management">Risk Management Guide</a></li>
-          <li><a href="#trading-psychology">Trading Psychology 101</a></li>
-          <li><a href="#market-analysis">Understanding Market Analysis</a></li>
+          <li><Link to="/about">About Us</Link></li>
+          <li><Link to="/terms">Terms & Conditions</Link></li>
+          <li><Link to="/popia">POPIA</Link></li>
         </ul>
       </div>
     </footer>

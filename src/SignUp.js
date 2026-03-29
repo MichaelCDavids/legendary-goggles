@@ -63,14 +63,18 @@ const SignUp = () => {
         </div>
         <button type="submit">Sign Up</button>
       </form>
-      <button onClick={signInWithGoogle} className="google-signin-btn">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google logo" />
-        Sign Up with Google
-      </button>
-      <button onClick={signInWithGoogleAdmin} className="google-signin-btn-admin">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google logo" />
-        Sign Up with Google (Admin)
-      </button>
+      <div className="google-btn-container">
+        <button onClick={signInWithGoogle} className="google-btn">
+          <div className="google-icon"></div>
+          Sign Up with Google
+        </button>
+      </div>
+      <div className="google-btn-container">
+        <button onClick={signInWithGoogleAdmin} className="google-btn">
+          <div className="google-icon"></div>
+          Sign Up with Google (Admin)
+        </button>
+      </div>
       <p>
         Already have an account? <Link to="/signin">Sign In</Link>
       </p>

@@ -1,5 +1,5 @@
 
-import { auth, googleProvider, facebookProvider, phoneProvider } from './firebase';
+import { auth, facebookProvider } from './firebase';
 import { 
   signInWithPopup, 
   signInWithEmailAndPassword, 
@@ -25,7 +25,6 @@ const signInWithGoogle = async () => {
     // Mock the Google sign-in for a regular user
     return Promise.resolve(createMockUser('user'));
   } catch (error) {
-    console.error(error);
   }
 };
 
@@ -34,7 +33,6 @@ const signInWithGoogleAdmin = async () => {
     // Mock the Google sign-in for an admin user
     return Promise.resolve(createMockUser('admin'));
   } catch (error) {
-    console.error(error);
   }
 };
 
@@ -42,7 +40,6 @@ const signInWithFacebook = async () => {
   try {
     await signInWithPopup(auth, facebookProvider);
   } catch (error) {
-    console.error(error);
   }
 };
 
@@ -54,7 +51,6 @@ const signInWithPhone = async (phoneNumber) => {
     const code = window.prompt("Enter the code sent to your phone:");
     await confirmationResult.confirm(code);
   } catch (error) {
-    console.error(error);
   }
 };
 
@@ -62,7 +58,6 @@ const signInWithEmail = async (email, password) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
   } catch (error) {
-    console.error(error);
   }
 };
 
@@ -70,7 +65,6 @@ const signUpWithEmail = async (email, password) => {
   try {
     await createUserWithEmailAndPassword(auth, email, password);
   } catch (error) {
-    console.error(error);
   }
 };
 
@@ -78,7 +72,6 @@ const sendPasswordReset = async (email) => {
   try {
     await sendPasswordResetEmail(auth, email);
   } catch (error) {
-    console.error(error);
   }
 };
 
@@ -86,7 +79,6 @@ const signOutUser = async () => {
   try {
     await signOut(auth);
   } catch (error) {
-    console.error(error);
   }
 };
 

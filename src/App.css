@@ -1,15 +1,4 @@
 
-body {
-  background-color: #121212;
-  color: #ffffff;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 .App {
   display: flex;
   flex-direction: column;
@@ -18,25 +7,27 @@ body {
 }
 
 .App-header {
-  background-color: #dc3545;
-  padding: 20px;
+  background-color: rgba(22, 22, 22, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 15px 20px;
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid #c82333;
   position: sticky;
   top: 0;
   z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .App-header h1 {
   margin: 0;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  font-weight: 700;
+  font-size: 1.5em;
 }
 
 .menu-toggle {
-  display: none; /* Hidden by default */
+  display: none;
   background: none;
   border: none;
   color: white;
@@ -44,42 +35,29 @@ body {
   cursor: pointer;
 }
 
-.nav-links {
-  display: flex;
-}
-
 .nav-links a {
   color: white;
-  margin: 0 15px;
+  margin: 0 10px;
   text-decoration: none;
+  position: relative;
   transition: color 0.3s;
+  font-size: 0.9em;
 }
 
-.nav-links a:hover {
-  color: #0056b3;
-  text-decoration: underline;
+.nav-links a:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #dc3545;
+  transition: width 0.3s;
 }
 
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: block; /* Show on smaller screens */
-  }
-
-  .nav-links {
-    display: none; /* Hide by default on smaller screens */
-    flex-direction: column;
-    position: absolute;
-    top: 70px; /* Adjust as needed */
-    right: 20px;
-    background-color: #2c2c2c;
-    border: 1px solid #c82333;
-    border-radius: 8px;
-    padding: 10px;
-  }
-
-  .nav-links.open {
-    display: flex;
-  }
+.nav-links a:hover:after {
+  width: 100%;
 }
 
 .main-content {
@@ -88,72 +66,48 @@ body {
 }
 
 .auth-form {
-  max-width: 400px;
-  margin: 40px auto;
-  padding: 30px;
-  border: 1px solid #c82333;
+  max-width: 360px;
+  margin: 30px auto;
+  padding: 25px;
   border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-  background-color: #2c2c2c;
-}
-
-.auth-form h2 {
-  margin-bottom: 20px;
-  color: #ffffff;
-}
-
-.auth-form form div {
-  margin-bottom: 15px;
-}
-
-.auth-form input {
-  width: calc(100% - 20px);
-  padding: 10px;
-  border: 1px solid #555;
-  border-radius: 4px;
-  background-color: #333;
-  color: #ffffff;
+  background-color: rgba(44, 44, 44, 0.8);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
 .auth-form button {
-  width: 100%;
   padding: 10px;
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
+  font-size: 15px;
 }
 
-.auth-form button:hover {
-  background-color: #c82333;
+.google-btn {
+  padding: 10px;
+  font-size: 15px;
 }
 
-.auth-form p {
-  margin-top: 20px;
-}
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
 
-.dashboard {
-  padding: 20px;
-}
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: rgba(44, 44, 44, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  }
 
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-}
+  .nav-links.open {
+    display: flex;
+  }
 
-.signal-card {
-  border: 1px solid #c82333;
-  border-radius: 8px;
-  padding: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-  background-color: #2c2c2c;
-}
-
-.signal-card h3 {
-  margin-top: 0;
-  color: #ffffff;
+  .nav-links a {
+    margin: 10px 0;
+  }
 }
