@@ -1,37 +1,50 @@
-import React, { createContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import { auth, db } from './firebase';
-import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
+import { handleRedirectResult } from './auth';
 
-export const UserContext = createContext({ user: null, refreshUser: () => {} });
+export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
-  const fetchUser = useCallback(async (authUser) => {
-    if (authUser) {
-      const userRef = doc(db, 'users', authUser.uid);
-      const userDoc = await getDoc(userRef);
-      setUser({ ...authUser, ...userDoc.data() });
-    } else {
-      setUser(null);
-    }
-  }, []);
+  const [role, setRole] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, fetchUser);
-    return unsubscribe;
-  }, [fetchUser]);
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        const userRef = doc(db, 'users', user.uid);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          setRole(userDoc.data().role);
+        }
+        setUser(user);
+      } else {
+        setUser(null);
+        setRole(null);
+      }
+      setLoading(false);
+    });
 
-  const refreshUser = useCallback(() => {
-    const currentUser = auth.currentUser;
-    if (currentUser) {
-      fetchUser(currentUser);
-    }
-  }, [fetchUser]);
+    const processRedirect = async () => {
+      const user = await handleRedirectResult();
+      if (user) {
+        const userRef = doc(db, 'users', user.uid);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          setRole(userDoc.data().role);
+        }
+        setUser(user);
+      }
+      setLoading(false);
+    };
+    processRedirect();
+
+    return () => unsubscribe();
+  }, []);
 
   return (
-    <UserContext.Provider value={{ user, refreshUser }}>
+    <UserContext.Provider value={{ user, setUser, role, loading }}>
       {children}
     </UserContext.Provider>
   );

@@ -12,7 +12,8 @@ import {
 } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
-const googleProvider = new GoogleAuthProvider();
+// Add your admin emails here
+const adminEmails = ['admin@example.com', 'your-email@example.com', 'michaelcdavids@gmail.com'];
 
 const createUserProfile = async (user) => {
   const userRef = doc(db, 'users', user.uid);
@@ -20,19 +21,24 @@ const createUserProfile = async (user) => {
 
   if (!userDoc.exists()) {
     const { displayName, email, photoURL } = user;
+    const role = adminEmails.includes(email) ? 'admin' : 'member';
     await setDoc(userRef, {
       displayName,
       email,
       photoURL,
-      role: 'member',
+      role,
       tier: 'Free'
     });
   }
 };
 
 export const signInWithGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  provider.addScope('profile');
+  provider.addScope('email');
+  provider.setCustomParameters({ prompt: 'select_account' });
   try {
-    await signInWithRedirect(auth, googleProvider);
+    await signInWithRedirect(auth, provider);
   } catch (error) {
     console.error("Error signing in with Google: ", error);
   }
@@ -43,9 +49,12 @@ export const handleRedirectResult = async () => {
     const result = await getRedirectResult(auth);
     if (result) {
       await createUserProfile(result.user);
+      return result.user;
     }
+    return null;
   } catch (error) {
     console.error("Error handling redirect result: ", error);
+    return null;
   }
 };
 

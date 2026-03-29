@@ -13,6 +13,7 @@ import Terms from './Terms';
 import POPIA from './POPIA';
 import LandingPage from './LandingPage';
 import Profile from './Profile';
+import Admin from './Admin'; // Import the Admin component
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,8 @@ const router = createBrowserRouter([
       { path: '/about', element: <About /> },
       { path: '/terms', element: <Terms /> },
       { path: '/popia', element: <POPIA /> },
+      { path: '/admin', element: <Admin /> }, // Add the admin route
+      { path: '*', element: <NotFound /> },
     ],
   },
 ]);

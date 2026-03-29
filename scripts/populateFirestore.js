@@ -38,7 +38,7 @@ const generateMockSignal = () => {
 
 const populateFirestore = async () => {
   try {
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 50; i++) {
       const signal = generateMockSignal();
       await addDoc(collection(db, "signals"), signal);
       console.log(`Added signal for ${signal.asset}`);

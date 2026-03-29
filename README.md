@@ -1,71 +1,51 @@
-Enjoy the city of Trading Signals App with React and Firebase
+# Taste PC - A Trading Signal Platform
 
-This is a simple React application that demonstrates how to use Firebase to create a real-time trading signals platform.
-
-## Features
-
-*   **Firebase Integration:** Uses Firestore to store and retrieve data in real-time.
-*   **User Tiers:** Implements a basic user tier system (Free, Basic, Gold).
-*   **Signal Posting:** Allows traders to post new signals with a required tier.
-*   **Real-time Dashboard:** Clients can see signals in real-time, filtered by their user tier.
-*   **User Authentication:** Users can sign in with Google, Facebook, phone number, or email.
-*   **QR Code Generation:** Trade signals can be embedded in a QR code to restrict access.
-*   **UI/UX Enhancements:** Polished form elements and an improved user interface.
-*   **Modern Landing Page:** A new landing page with a clean and modern design.
-*   **Metatrader 5 Integration:** Ability to post signals directly from Metatrader 5.
-
-## Roadmap
-
-*   [x] Firebase Integration
-*   [x] User Tiers
-*   [x] Signal Posting
-*   [x] Real-time Dashboard
-*   [x] User Authentication
-*   [x] QR Code Generation
-*   [x] UI/UX Enhancements
-*   [x] Modern Landing Page
-*   [ ] Firebase Storage Integration
-*   [ ] Metatrader 5 Integration
+This is a web application that provides trading signals to users. It includes a user authentication system with Google and Phone number sign-in, and a dashboard that displays trading signals based on the user's membership tier.
 
 ## Getting Started
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/your-repo-name.git
-    ```
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-3.  **Set up Firebase:**
-    *   Create a new project in the [Firebase console](https://console.firebase.google.com/).
-    *   Enable the following authentication methods: Google, Facebook, Phone, and Email/Password.
-    *   Copy your Firebase project configuration.
-    *   Paste your configuration into the `src/firebase.js` file.
-4.  **Run the app:**
-    ```bash
-    npm start
-    ```
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-## How to Use
+### Prerequisites
 
-*   **Traders:** Use the "Post a New Signal" form to create and send new trading signals.
-*   **Clients:** View the dashboard to see QR codes for the latest signals. Scan a QR code to view the signal details.
+You will need to have Node.js and npm installed on your machine.
+
+### Installing
+
+1. Clone the repository to your local machine.
+2. Install the dependencies:
+
+```
+npm install
+```
+
+3. Start the development server:
+
+```
+npm run start
+```
+
+The application will be available at `http://localhost:3000`.
+
+## Authentication
+
+The application uses Firebase for authentication. Users can sign in with their Google account or with their phone number.
+
+### Google Sign-In
+
+Users can sign in by clicking the "Sign In with Google" button on the sign-in page.
+
+### Phone Number Sign-In
+
+Users can sign in by entering their phone number and a verification code that is sent to their phone.
 
 ## Deployment
 
-To deploy the application to Firebase Hosting, run the following command:
+The application is deployed to Firebase Hosting. To deploy the application, you will need to have the Firebase CLI installed and configured.
 
-```bash
-firebase deploy --only hosting
+To build and deploy the application, run the following commands:
+
 ```
-
-## Firestore Schema
-
-*   **users:**
-    *   `tier`: (String) "Free", "Basic", or "Gold"
-    *   `uid`: (String) The user's unique ID.
-*   **signals:**
-    *   `signal`: (String) The content of the trading signal.
-    *   `requiredTier`: (String) The minimum tier required to view the signal.
-    *   `createdAt`: (Timestamp) The time the signal was created.
+npm run build
+npm run deploy
+```
