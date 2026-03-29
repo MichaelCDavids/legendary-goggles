@@ -1,7 +1,8 @@
 
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, FacebookAuthProvider, PhoneAuthProvider } from 'firebase/auth';
+
 
 // TODO: Replace with your own Firebase project configuration
 const firebaseConfig = {
@@ -17,4 +18,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-export { db, auth };
+const googleProvider = new GoogleAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
+const phoneProvider = new PhoneAuthProvider();
+
+export { db, auth, googleProvider, facebookProvider, phoneProvider };

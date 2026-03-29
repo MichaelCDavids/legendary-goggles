@@ -1,44 +1,20 @@
+/*
+  NOTE FOR DEVELOPERS:
 
-import React, { useState, useEffect } from 'react';
-import { db } from './firebase';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
+  The trade signals displayed in this dashboard are intended to be sourced from MetaTrader 5.
+  In a production environment, an API call should be made to a backend service that is connected to MetaTrader 5 
+  to fetch the latest trade signals. The fetched signals should then be displayed in the `Trades` component.
 
-const Dashboard = ({ userTier }) => {
-  const [signals, setSignals] = useState([]);
+  The current implementation uses mock data for demonstration purposes.
+*/
 
-  useEffect(() => {
-    if (userTier) {
-      const signalsRef = collection(db, 'signals');
-      let q;
-      if (userTier === 'Gold') {
-        q = query(signalsRef);
-      } else if (userTier === 'Basic') {
-        q = query(signalsRef, where('requiredTier', 'in', ['Free', 'Basic']));
-      } else {
-        q = query(signalsRef, where('requiredTier', '==', 'Free'));
-      }
+import React from 'react';
+import Trades from './Trades';
 
-      const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const signalsData = [];
-        querySnapshot.forEach((doc) => {
-          signalsData.push({ id: doc.id, ...doc.data() });
-        });
-        setSignals(signalsData);
-      });
-
-      return () => unsubscribe();
-    }
-  }, [userTier]);
-
+const Dashboard = () => {
   return (
-    <div>
-      <h2>Signals Dashboard</h2>
-      {signals.map((signal) => (
-        <div key={signal.id} style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
-          <p>{signal.signal}</p>
-          <p>Required Tier: {signal.requiredTier}</p>
-        </div>
-      ))}
+    <div className="dashboard">
+      <Trades />
     </div>
   );
 };
