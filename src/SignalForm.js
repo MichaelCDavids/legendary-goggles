@@ -16,6 +16,12 @@ const SignalForm = () => {
   const [takeProfit, setTakeProfit] = useState('');
   const [stopLoss, setStopLoss] = useState('');
   const [requiredTier, setRequiredTier] = useState('Free');
+  const [timeframe, setTimeframe] = useState('1-hour');
+  const [riskRewardRatio, setRiskRewardRatio] = useState('');
+  const [signalProvider, setSignalProvider] = useState('');
+  const [confidenceLevel, setConfidenceLevel] = useState('');
+  const [marketAnalysis, setMarketAnalysis] = useState('');
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,12 +33,21 @@ const SignalForm = () => {
         takeProfit,
         stopLoss,
         requiredTier,
+        timeframe,
+        riskRewardRatio,
+        signalProvider,
+        confidenceLevel,
+        marketAnalysis,
         createdAt: serverTimestamp(),
       });
       // Reset form or provide feedback
       setEntryPoint('');
       setTakeProfit('');
       setStopLoss('');
+      setRiskRewardRatio('');
+      setSignalProvider('');
+      setConfidenceLevel('');
+      setMarketAnalysis('');
       alert('Signal posted successfully!');
     } catch (error) {
       console.error("Error adding document: ", error);
@@ -82,6 +97,46 @@ const SignalForm = () => {
             value={stopLoss}
             onChange={(e) => setStopLoss(e.target.value)}
             required
+          />
+        </div>
+        <div>
+          <label>Timeframe:</label>
+          <input
+            type="text"
+            value={timeframe}
+            onChange={(e) => setTimeframe(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Risk/Reward Ratio:</label>
+          <input
+            type="text"
+            value={riskRewardRatio}
+            onChange={(e) => setRiskRewardRatio(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Signal Provider:</label>
+          <input
+            type="text"
+            value={signalProvider}
+            onChange={(e) => setSignalProvider(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Confidence Level:</label>
+          <input
+            type="text"
+            value={confidenceLevel}
+            onChange={(e) => setConfidenceLevel(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Market Analysis:</label>
+          <textarea
+            value={marketAnalysis}
+            onChange={(e) => setMarketAnalysis(e.target.value)}
           />
         </div>
         <div>

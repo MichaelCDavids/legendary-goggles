@@ -1,5 +1,5 @@
 
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import Footer from './Footer';
@@ -14,19 +14,30 @@ const SignalDetailPage = lazy(() => import('./SignalDetailPage'));
 const NotFound = lazy(() => import('./NotFound'));
 
 function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <Router>
       <div className="App">
         <header className="App-header">
           <h1>Thurlo Trades</h1>
           <nav>
-            <Link to="/"><span role="img" aria-label="dashboard">🏠</span></Link>
-            <Link to="/post-signal"><span role="img" aria-label="post signal">📝</span></Link>
-            <Link to="/signin"><span role="img" aria-label="sign in">🚪</span></Link>
-            <Link to="/signup"><span role="img" aria-label="sign up">👤</span></Link>
+            <button className="menu-toggle" onClick={toggleMenu}>
+              <span role="img" aria-label="menu">☰</span>
+            </button>
+            <div className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
+              <Link to="/"><span role="img" aria-label="dashboard">🏠</span> Dashboard</Link>
+              <Link to="/post-signal"><span role="img" aria-label="post signal">📝</span> Post Signal</Link>
+              <Link to="/signin"><span role="img" aria-label="sign in">🚪</span> Sign In</Link>
+              <Link to="/signup"><span role="img" aria-label="sign up">👤</span> Sign Up</Link>
+            </div>
           </nav>
         </header>
-        <div style={{ padding: '20px' }}>
+        <main className="main-content">
           <ErrorBoundary>
             <Suspense fallback={<Spinner />}>
               <Routes>
@@ -39,7 +50,7 @@ function App() {
               </Routes>
             </Suspense>
           </ErrorBoundary>
-        </div>
+        </main>
         <Footer />
       </div>
     </Router>

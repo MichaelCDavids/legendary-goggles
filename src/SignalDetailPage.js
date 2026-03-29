@@ -54,9 +54,14 @@ const SignalDetailPage = ({ userTier }) => {
       {signal ? (
         <div className="signal-detail">
           <h2>{signal.asset} - {signal.tradeType}</h2>
-          <p><strong>Entry Price:</strong> {signal.entryPrice}</p>
+          <p><strong>Entry Price:</strong> {signal.entryPoint}</p>
           <p><strong>Stop Loss:</strong> {signal.stopLoss}</p>
           <p><strong>Take Profit:</strong> {signal.takeProfit}</p>
+          <p><strong>Timeframe:</strong> {signal.timeframe}</p>
+          <p><strong>Risk/Reward Ratio:</strong> {signal.riskRewardRatio}</p>
+          <p><strong>Signal Provider:</strong> {signal.signalProvider}</p>
+          <p><strong>Confidence Level:</strong> {signal.confidenceLevel}</p>
+          <p><strong>Market Analysis:</strong> {signal.marketAnalysis}</p>
           <p><strong>Required Tier:</strong> {signal.requiredTier}</p>
           {signal.createdAt && (
             <p><small>Posted at: {new Date(signal.createdAt.seconds * 1000).toLocaleString()}</small></p>
