@@ -1,7 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { auth, db } from './firebase';
 import { doc, getDoc } from 'firebase/firestore';
-import { handleRedirectResult } from './auth';
 
 export const UserContext = createContext();
 
@@ -11,14 +10,17 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const userRef = doc(db, 'users', user.uid);
+    const unsubscribe = auth.onAuthStateChanged(async (userAuth) => {
+      if (userAuth) {
+        const userRef = doc(db, 'users', userAuth.uid);
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
-          setRole(userDoc.data().role);
+          const userData = userDoc.data();
+          setRole(userData.role);
+          setUser({ ...userAuth, tier: userData.tier });
+        } else {
+          setUser(userAuth);
         }
-        setUser(user);
       } else {
         setUser(null);
         setRole(null);
@@ -26,25 +28,11 @@ export const UserProvider = ({ children }) => {
       setLoading(false);
     });
 
-    const processRedirect = async () => {
-      const user = await handleRedirectResult();
-      if (user) {
-        const userRef = doc(db, 'users', user.uid);
-        const userDoc = await getDoc(userRef);
-        if (userDoc.exists()) {
-          setRole(userDoc.data().role);
-        }
-        setUser(user);
-      }
-      setLoading(false);
-    };
-    processRedirect();
-
     return () => unsubscribe();
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, role, loading }}>
+    <UserContext.Provider value={{ user, setUser, role, loading, setLoading }}>
       {children}
     </UserContext.Provider>
   );

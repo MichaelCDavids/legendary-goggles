@@ -13,7 +13,10 @@ import Terms from './Terms';
 import POPIA from './POPIA';
 import LandingPage from './LandingPage';
 import Profile from './Profile';
-import Admin from './Admin'; // Import the Admin component
+import Admin from './Admin';
+import CompleteProfile from './CompleteProfile';
+import ProtectedRoute from './ProtectedRoute';
+import NotAuthorized from './NotAuthorized';
 
 const router = createBrowserRouter([
   {
@@ -22,17 +25,19 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { path: '/', element: <LandingPage /> },
-      { path: '/dashboard', element: <Dashboard /> },
+      { path: '/dashboard', element: <ProtectedRoute><Dashboard /></ProtectedRoute> },
       { path: '/signin', element: <SignIn /> },
       { path: '/signup', element: <SignUp /> },
-      { path: '/profile', element: <Profile /> },
+      { path: '/complete-profile', element: <ProtectedRoute><CompleteProfile /></ProtectedRoute> },
+      { path: '/profile', element: <ProtectedRoute><Profile /></ProtectedRoute> },
       { path: '/signals/:signalId', element: <SignalDetailPage /> },
       { path: '/post-success/:signalId', element: <SignalPostConfirmation /> },
-      { path: '/post-signal', element: <SignalForm /> },
+      { path: '/post-signal', element: <ProtectedRoute><SignalForm /></ProtectedRoute> },
       { path: '/about', element: <About /> },
       { path: '/terms', element: <Terms /> },
       { path: '/popia', element: <POPIA /> },
-      { path: '/admin', element: <Admin /> }, // Add the admin route
+      { path: '/admin', element: <ProtectedRoute><Admin /></ProtectedRoute> },
+      { path: '/not-authorized', element: <NotAuthorized /> },
       { path: '*', element: <NotFound /> },
     ],
   },

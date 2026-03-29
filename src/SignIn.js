@@ -1,22 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { signInWithGoogle, setUpRecaptcha, signInWithPhone } from './auth';
+import React, { useContext, useState } from 'react';
+import { signInWithGoogle, setUpRecaptcha, signInWithPhone, verifyPhoneCode } from './auth';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import './AuthForm.css';
 
 const SignIn = () => {
-  const { user } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');
   const [confirmationResult, setConfirmationResult] = useState(null);
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    if (user) {
-      navigate('/dashboard');
-    }
-  }, [user, navigate]);
 
   const handlePhoneSignIn = async () => {
     setError('');
@@ -41,8 +35,13 @@ const SignIn = () => {
       return;
     }
     try {
-      await confirmationResult.confirm(code);
-      // The user is now signed in, the useEffect will handle the redirect.
+      const { user, isNewUser } = await verifyPhoneCode(confirmationResult, code);
+      setUser(user);
+      if (isNewUser) {
+        navigate('/complete-profile');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (error) {
       console.error('Error verifying code:', error);
       setError('Invalid verification code. Please try again.');

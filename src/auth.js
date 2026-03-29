@@ -29,7 +29,9 @@ const createUserProfile = async (user) => {
       role,
       tier: 'Free'
     });
+    return true; // New user
   }
+  return false; // Existing user
 };
 
 export const signInWithGoogle = async () => {
@@ -48,8 +50,8 @@ export const handleRedirectResult = async () => {
   try {
     const result = await getRedirectResult(auth);
     if (result) {
-      await createUserProfile(result.user);
-      return result.user;
+      const isNewUser = await createUserProfile(result.user);
+      return { user: result.user, isNewUser };
     }
     return null;
   } catch (error) {
@@ -61,18 +63,22 @@ export const handleRedirectResult = async () => {
 export const signInWithEmail = async (email, password) => {
   try {
     const result = await signInWithEmailAndPassword(auth, email, password);
-    await createUserProfile(result.user);
+    const isNewUser = await createUserProfile(result.user);
+    return { user: result.user, isNewUser };
   } catch (error) {
     console.error("Error signing in with email: ", error);
+    throw error;
   }
 };
 
 export const signUpWithEmail = async (email, password) => {
   try {
     const result = await createUserWithEmailAndPassword(auth, email, password);
-    await createUserProfile(result.user);
+    const isNewUser = await createUserProfile(result.user);
+    return { user: result.user, isNewUser };
   } catch (error) {
     console.error("Error signing up with email: ", error);
+    throw error;
   }
 };
 
@@ -94,6 +100,23 @@ export const setUpRecaptcha = (recaptchaContainer) => {
   return recaptchaVerifier;
 };
 
-export const signInWithPhone = (phoneNumber, appVerifier) => {
-  return signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+export const signInWithPhone = async (phoneNumber, appVerifier) => {
+  try {
+    const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+    return confirmationResult;
+  } catch (error) {
+    console.error("Error signing in with phone number: ", error);
+    throw error;
+  }
+};
+
+export const verifyPhoneCode = async (confirmationResult, code) => {
+  try {
+    const result = await confirmationResult.confirm(code);
+    const isNewUser = await createUserProfile(result.user);
+    return { user: result.user, isNewUser };
+  } catch (error) {
+    console.error("Error verifying phone code: ", error);
+    throw error;
+  }
 };

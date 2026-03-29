@@ -1,14 +1,30 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { auth } from './firebase';
 import './App.css';
 import Footer from './Footer';
 import { UserContext, UserProvider } from './UserContext';
+import { handleRedirectResult } from './auth';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, role, loading } = useContext(UserContext);
+  const { user, role, loading, setUser } = useContext(UserContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkRedirect = async () => {
+      const result = await handleRedirectResult();
+      if (result) {
+        setUser(result.user);
+        if (result.isNewUser) {
+          navigate('/complete-profile');
+        } else {
+          navigate('/dashboard');
+        }
+      }
+    };
+    checkRedirect();
+  }, [navigate, setUser]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -39,7 +55,8 @@ function App() {
             <Link to="/terms"><span role="img" aria-label="terms and conditions">📜</span> Terms</Link>
             {user ? (
               <>
-                <Link to="/profile"><span role="img" aria-label="profile">👤</span> Profile</Link>
+                <Link to="/profile"><span role="img" aria-label="profile">👤</span> {user.displayName}</Link>
+                <span>Tier: {user.tier || 'Free'}</span>
                 <button onClick={handleSignOut}>Sign Out</button>
               </>
             ) : (
