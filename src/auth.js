@@ -13,7 +13,7 @@ import {
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 // Add your admin emails here
-const adminEmails = ['admin@example.com', 'your-email@example.com', 'michaelcdavids@gmail.com'];
+const adminEmails = ['wwwthurlofrancis9@gmail.com', 'michaelcdavids@gmail.com'];
 
 const createUserProfile = async (user) => {
   const userRef = doc(db, 'users', user.uid);
