@@ -8,7 +8,7 @@ import Terms from './Terms';
 import LandingPage from './LandingPage';
 import FAQ from './FAQ';
 import Auth from './Auth';
-import Trades from './Trades';
+import TradesPage from './TradesPage';
 import SignalDetailPage from './SignalDetailPage';
 
 const router = createBrowserRouter([
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
       { path: '/', element: <LandingPage /> },
       { path: '/auth', element: <Auth /> },
       { path: '/dashboard', element: <Dashboard /> },
-      { path: '/trades', element: <Trades /> },
+      { path: '/trades', element: <TradesPage /> },
       { path: '/signal/:id', element: <SignalDetailPage /> },
       { path: '/about', element: <About /> },
       { path: '/terms', element: <Terms /> },

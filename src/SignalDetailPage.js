@@ -1,40 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from './firebase';
-import Spinner from './Spinner';
+import { trades } from './mockData';
 import MarketNews from './MarketNews';
 import './SignalDetailPage.css';
 
 const SignalDetailPage = () => {
   const { id } = useParams();
-  const [trade, setTrade] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    const fetchTrade = async () => {
-      const tradeDoc = await getDoc(doc(db, 'signals', id));
-      if (tradeDoc.exists()) {
-        setTrade(tradeDoc.data());
-      }
-      setLoading(false);
-    };
-
-    fetchTrade();
-  }, [id]);
-
-  const copyToClipboard = () => {
-    const tradeDetails = `Asset: ${trade.asset}\nDirection: ${trade.direction}\nEntry Price: ${trade.entryPrice}\nStop Loss: ${trade.stopLoss}\nTake Profit: ${trade.takeProfit}`;
-    navigator.clipboard.writeText(tradeDetails).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  };
-
-  if (loading) {
-    return <Spinner />;
-  }
+  const trade = trades.find(t => t.id === parseInt(id));
 
   if (!trade) {
     return <p>Trade not found.</p>;
@@ -44,20 +16,16 @@ const SignalDetailPage = () => {
     <div className="signal-detail-page">
       <div className="bento-box">
         <div className="signal-header">
-          <h2>{trade.asset}</h2>
-          <button onClick={copyToClipboard} className="copy-button">
-            {copied ? 'Copied!' : 'Copy Trade'}
-          </button>
+          <h2>{trade.symbol}</h2>
         </div>
-        <p><strong>Direction:</strong> {trade.direction}</p>
+        <p><strong>Type:</strong> {trade.type}</p>
         <p><strong>Entry Price:</strong> {trade.entryPrice}</p>
-        <p><strong>Stop Loss:</strong> {trade.stopLoss}</p>
-        <p><strong>Take Profit:</strong> {trade.takeProfit}</p>
+        {trade.exitPrice && <p><strong>Exit Price:</strong> {trade.exitPrice}</p>}
         <p><strong>Status:</strong> {trade.status}</p>
       </div>
       <div className="bento-box">
         <h3>Market News</h3>
-        <MarketNews asset={trade.asset} />
+        <MarketNews asset={trade.symbol} />
       </div>
     </div>
   );

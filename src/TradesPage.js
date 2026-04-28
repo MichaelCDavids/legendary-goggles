@@ -1,5 +1,5 @@
-
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { trades } from './mockData';
 import './TradesPage.css';
 
@@ -16,12 +16,12 @@ const TradesPage = () => {
         {openTrades.length > 0 ? (
           <div className="trades-container">
             {openTrades.map(trade => (
-              <div key={trade.id} className="trade-card open">
+              <Link to={`/signal/${trade.id}`} key={trade.id} className="trade-card open">
                 <h2>{trade.symbol}</h2>
                 <p><strong>Type:</strong> {trade.type}</p>
                 <p><strong>Entry Price:</strong> {trade.entryPrice}</p>
                 <p><strong>Status:</strong> <span className="status open">{trade.status}</span></p>
-              </div>
+              </Link>
             ))}
           </div>
         ) : (
@@ -34,13 +34,13 @@ const TradesPage = () => {
         {closedTrades.length > 0 ? (
           <div className="trades-container">
             {closedTrades.map(trade => (
-              <div key={trade.id} className="trade-card closed">
+              <Link to={`/signal/${trade.id}`} key={trade.id} className="trade-card closed">
                 <h2>{trade.symbol}</h2>
                 <p><strong>Type:</strong> {trade.type}</p>
                 <p><strong>Entry Price:</strong> {trade.entryPrice}</p>
                 <p><strong>Exit Price:</strong> {trade.exitPrice}</p>
                 <p><strong>Status:</strong> <span className="status closed">{trade.status}</span></p>
-              </div>
+              </Link>
             ))}
           </div>
         ) : (

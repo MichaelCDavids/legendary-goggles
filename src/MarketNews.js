@@ -5,15 +5,19 @@ import './MarketNews.css';
 const MarketNews = ({ asset }) => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const response = await fetch(`https://newsdata.io/api/1/news?apikey=${API_KEY}&q=${asset}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch news. Please check your API key.');
+        }
         const data = await response.json();
         setNews(data.results || []);
       } catch (error) {
-        console.error("Error fetching news:", error);
+        setError(error.message);
       }
       setLoading(false);
     };
@@ -23,6 +27,10 @@ const MarketNews = ({ asset }) => {
 
   if (loading) {
     return <p>Loading news...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
   }
 
   return (
