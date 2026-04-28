@@ -1,16 +1,24 @@
 
+:root {
+  --primary-bg: #1a1a1a;
+  --secondary-bg: #2c2c2c;
+  --primary-text: #ffffff;
+  --accent-color: #e53935;
+  --bento-bg: #252525;
+}
+
 .App {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #1a1a1a;
+  background-color: var(--primary-bg);
+  color: var(--primary-text);
 }
 
 .App-header {
   background-color: rgba(22, 22, 22, 0.8);
   backdrop-filter: blur(10px);
   padding: 15px 20px;
-  color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -27,87 +35,71 @@
 }
 
 .menu-toggle {
-  display: none;
   background: none;
   border: none;
   color: white;
   font-size: 24px;
   cursor: pointer;
+  z-index: 1001;
 }
 
-.nav-links a {
-  color: white;
-  margin: 0 10px;
+.App-drawer {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 250px;
+  height: 100%;
+  background-color: var(--bento-bg);
+  padding: 60px 20px 20px;
+  box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+  transition: right 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+.App-drawer.open {
+  right: 0;
+}
+
+.close-menu {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.App-drawer nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.App-drawer nav a {
+  color: var(--primary-text);
   text-decoration: none;
-  position: relative;
+  font-size: 1.2em;
+  margin-bottom: 20px;
   transition: color 0.3s;
-  font-size: 0.9em;
 }
 
-.nav-links a:after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: -5px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #dc3545;
-  transition: width 0.3s;
-}
-
-.nav-links a:hover:after {
-  width: 100%;
+.App-drawer nav a:hover {
+  color: var(--accent-color);
 }
 
 .main-content {
   flex: 1;
   padding: 20px;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
-.auth-form {
-  max-width: 360px;
-  margin: 30px auto;
-  padding: 25px;
-  border-radius: 8px;
-  background-color: rgba(44, 44, 44, 0.8);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-}
-
-.auth-form button {
-  padding: 10px;
-  font-size: 15px;
-}
-
-.google-btn {
-  padding: 10px;
-  font-size: 15px;
-}
-
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: block;
-  }
-
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background-color: rgba(44, 44, 44, 0.9);
-    backdrop-filter: blur(10px);
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  }
-
-  .nav-links.open {
-    display: flex;
-  }
-
-  .nav-links a {
-    margin: 10px 0;
-  }
+/* Bento Box Styles */
+.bento-box {
+  background-color: var(--bento-bg);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import QRCode from 'react-qr-code';
 import './SignalCard.css';
 
 const tierLevels = {
@@ -33,7 +32,7 @@ const SignalCard = ({ trade, membership }) => {
   }
 
   return (
-    <Link to={`/signals/${trade.id}`} className="trade-card-link">
+    <Link to={`/signal/${trade.id}`} className="trade-card-link">
       <div className="trade-card">
         <div className="trade-info">
           <h3>{trade.asset}</h3>
@@ -43,9 +42,6 @@ const SignalCard = ({ trade, membership }) => {
           <p>Stop Loss: {trade.stopLoss}</p>
           <p>Take Profit: {trade.takeProfit}</p>
           <p>Timeframe: {trade.timeframe}</p>
-        </div>
-        <div className="trade-qr">
-          <QRCode value={JSON.stringify(trade)} size={128} />
         </div>
       </div>
     </Link>

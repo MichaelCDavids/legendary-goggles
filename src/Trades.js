@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { db } from './firebase';
 import SignalCard from './SignalCard';
+import { UserContext } from './UserContext';
 import './Trades.css';
 
 const assetGroups = {
@@ -11,7 +12,8 @@ const assetGroups = {
   Cryptos: ["BTCUSD", "ETHUSD", "LTCUSD"],
 };
 
-const Trades = ({ membership }) => {
+const Trades = () => {
+  const { membership } = useContext(UserContext);
   const [trades, setTrades] = useState([]);
   const [filter, setFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,6 +37,10 @@ const Trades = ({ membership }) => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+  
+  if (!membership) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div className="trades-container">
@@ -53,7 +59,7 @@ const Trades = ({ membership }) => {
       </div>
       <div className="trades-list">
         {paginatedTrades.map((trade) => (
-          <SignalCard key={trade.id} trade={trade} membership={membership} />
+          <SignalCard key={trade.id} trade={trade} membership={membership.name} />
         ))}
       </div>
       <div className="pagination">

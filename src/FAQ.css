@@ -1,0 +1,19 @@
+.faq-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.faq-list {
+  margin-top: 2rem;
+}
+
+.faq-item {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+.faq-item h3 {
+  margin-bottom: 0.5rem;
+}

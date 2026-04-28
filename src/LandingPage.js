@@ -1,70 +1,33 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ParallaxImage from './ParallaxImage';
 import './LandingPage.css';
+import Membership from './Membership';
 
 const LandingPage = () => {
   return (
-    (<div className="landing-page">
-      <ParallaxImage src="https://picsum.photos/seed/candlesticks/1200/800">
-        <header className="hero-section">
-          <h1>Welcome to Trade Signals Market</h1>
-          <p>Your one-stop platform for the best trade signals.</p>
-          <Link to="/signup" className="cta-button">Get Started</Link>
-        </header>
-      </ParallaxImage>
-      
-      <section className="features-section">
-        <h2>Why Choose Us?</h2>
-        <div className="features-grid">
-          <div className="feature-card">
-            <span className="icon">📈</span>
-            <h3>Expert Signals</h3>
-            <p>Access high-quality signals from verified providers.</p>
-          </div>
-          <div className="feature-card">
-            <span className="icon">🔔</span>
-            <h3>Real-Time Alerts</h3>
-            <p>Never miss a trade with our instant notifications.</p>
-          </div>
-          <div className="feature-card">
-            <span className="icon">👥</span>
-            <h3>Community-Driven</h3>
-            <p>Join a thriving community of traders and analysts.</p>
-          </div>
-        </div>
-      </section>
+    <div className="landing-page">
+      <div className="hero-section">
+        <h1>Start Your Trading Journey.</h1>
+        <p>Master the markets by learning the art of trading. We provide the tools, you determine the strategy.</p>
+        <Link to="/auth" className="cta-button">Get Started</Link>
+      </div>
 
-      <section className="how-it-works-section">
-        <h2>How It Works</h2>
-        <div className="steps-container">
-          <div className="step">
-            <span className="icon">✍️</span>
-            <div className="step-number">1</div>
-            <h3>Sign Up</h3>
-            <p>Create your free account in minutes.</p>
-          </div>
-          <div className="step">
-            <span className="icon">🔍</span>
-            <div className="step-number">2</div>
-            <h3>Browse Signals</h3>
-            <p>Explore signals for various assets and timeframes.</p>
-          </div>
-          <div className="step">
-            <span className="icon">💸</span>
-            <div className="step-number">3</div>
-            <h3>Subscribe & Trade</h3>
-            <p>Follow top providers and start receiving signals.</p>
-          </div>
+      <div className="features-section">
+        <div className="bento-box">
+          <h3>Expert Insights</h3>
+          <p>Gain valuable insights by following signals from experienced traders. Understand market analysis and identify high-probability trading opportunities.</p>
         </div>
-      </section>
-
-      <section className="call-to-action-section">
-        <h2>Ready to elevate your trading?</h2>
-        <p>Join our platform today and gain a competitive edge.</p>
-        <Link to="/signup" className="cta-button">Sign Up Now</Link>
-      </section>
-    </div>)
+        <div className="bento-box">
+          <h3>Develop Your Skills</h3>
+          <p>You can apply your knowledge in real-time, allowing you to develop your trading skills while having the potential to grow your portfolio.</p>
+        </div>
+        <div className="bento-box">
+          <h3>Achieve Independence</h3>
+          <p>Our primary objective is to empower you with the tools and knowledge required to build your own successful trading strategy and trade with confidence.</p>
+        </div>
+      </div>
+      <Membership />
+    </div>
   );
 };
 

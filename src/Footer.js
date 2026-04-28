@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <footer className="footer-container">
       <div className="footer-section">
-        <h3>About Trade Signals Markets</h3>
+        <h3>About GX Tradess</h3>
         <p>Your go-to platform for reliable trading signals and market insights.</p>
       </div>
       <div className="footer-section">

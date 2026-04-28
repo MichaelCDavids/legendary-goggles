@@ -1,0 +1,2 @@
+const API_KEY = 'pub_463435851167431269391b85b461358a946b7';
+export default API_KEY;

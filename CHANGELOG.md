@@ -14,3 +14,4 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - The deployed version of the application now matches the development version.
+- Fixed CSS inconsistencies for a uniform dark theme.

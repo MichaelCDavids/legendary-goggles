@@ -1,12 +1,24 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { auth, db } from './firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { memberships } from './memberships';
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [role, setRole] = useState(null);
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+  const [role, setRole] = useState(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      return parsedUser.role ? parsedUser.role : null;
+    }
+    return null;
+  });
+  const [membership, setMembership] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,14 +28,23 @@ export const UserProvider = ({ children }) => {
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
           const userData = userDoc.data();
+          const userWithRoleAndTier = { ...userAuth, role: userData.role, tier: userData.tier };
           setRole(userData.role);
-          setUser({ ...userAuth, tier: userData.tier });
+          setMembership(memberships[userData.tier.toLowerCase()] || memberships.free);
+          setUser(userWithRoleAndTier);
+          localStorage.setItem('user', JSON.stringify(userWithRoleAndTier));
         } else {
-          setUser(userAuth);
+          const defaultUser = { ...userAuth, role: 'member', tier: 'Free' };
+          setRole('member');
+          setMembership(memberships.free);
+          setUser(defaultUser);
+          localStorage.setItem('user', JSON.stringify(defaultUser));
         }
       } else {
         setUser(null);
         setRole(null);
+        setMembership(null);
+        localStorage.removeItem('user');
       }
       setLoading(false);
     });
@@ -32,7 +53,7 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, role, loading, setLoading }}>
+    <UserContext.Provider value={{ user, setUser, role, membership, loading, setLoading }}>
       {children}
     </UserContext.Provider>
   );

@@ -1,73 +1,38 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Outlet, Link, useNavigate } from 'react-router-dom';
-import { auth } from './firebase';
+import React, { useState } from 'react';
+import { Outlet, Link } from 'react-router-dom';
 import './App.css';
 import Footer from './Footer';
-import { UserContext, UserProvider } from './UserContext';
-import { handleRedirectResult } from './auth';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, role, loading, setUser } = useContext(UserContext);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const checkRedirect = async () => {
-      const result = await handleRedirectResult();
-      if (result) {
-        setUser(result.user);
-        if (result.isNewUser) {
-          navigate('/complete-profile');
-        } else {
-          navigate('/dashboard');
-        }
-      }
-    };
-    checkRedirect();
-  }, [navigate, setUser]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleSignOut = async () => {
-    await auth.signOut();
-    navigate('/');
+  const closeMenu = () => {
+    setIsMenuOpen(false);
   };
-
-  if (loading) {
-    return <div>Loading...</div>; // Or a spinner component
-  }
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Trade Signals Market</h1>
-        <nav>
-          <button className="menu-toggle" onClick={toggleMenu}>
-            <span role="img" aria-label="menu">☰</span>
-          </button>
-          <div className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
-            <Link to="/dashboard"><span role="img" aria-label="dashboard">🏠</span> Dashboard</Link>
-            {role === 'admin' && <Link to="/post-signal"><span role="img" aria-label="post signal">📝</span> Post Signal</Link>}
-            {role === 'admin' && <Link to="/admin"><span role="img" aria-label="admin dashboard">👑</span> Admin</Link>}
-            <Link to="/about"><span role="img" aria-label="about">ℹ️</span> About</Link>
-            <Link to="/terms"><span role="img" aria-label="terms and conditions">📜</span> Terms</Link>
-            {user ? (
-              <>
-                <Link to="/profile"><span role="img" aria-label="profile">👤</span> {user.displayName}</Link>
-                <span>Tier: {user.tier || 'Free'}</span>
-                <button onClick={handleSignOut}>Sign Out</button>
-              </>
-            ) : (
-              <>
-                <Link to="/signin"><span role="img" aria-label="sign in">🚪</span> Sign In</Link>
-                <Link to="/signup"><span role="img" aria-label="sign up">👤</span> Sign Up</Link>
-              </>
-            )}
-          </div>
-        </nav>
+        <h1>GX Trades</h1>
+        <button className="menu-toggle" onClick={toggleMenu}>
+          ☰
+        </button>
       </header>
+      <div className={`App-drawer ${isMenuOpen ? 'open' : ''}`}>
+        <button className="close-menu" onClick={closeMenu}>×</button>
+        <nav>
+          <Link to="/auth" onClick={closeMenu}>Sign In</Link>
+          <Link to="/dashboard" onClick={closeMenu}>Dashboard</Link>
+          <Link to="/trades" onClick={closeMenu}>Trades</Link>
+          <Link to="/about" onClick={closeMenu}>About</Link>
+          <Link to="/terms" onClick={closeMenu}>Terms</Link>
+          <Link to="/faq" onClick={closeMenu}>FAQ</Link>
+        </nav>
+      </div>
       <main className="main-content">
         <Outlet />
       </main>
@@ -76,10 +41,4 @@ function App() {
   );
 }
 
-const AppWrapper = () => (
-  <UserProvider>
-    <App />
-  </UserProvider>
-);
-
-export default AppWrapper;
+export default App;

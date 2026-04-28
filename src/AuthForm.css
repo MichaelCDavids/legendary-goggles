@@ -5,14 +5,14 @@
     padding: 40px;
     border-radius: 12px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    background: #ffffff;
+    background: #333;
     text-align: center;
     border: 1px solid #e0e0e0;
 }
 
 .auth-form h2 {
     margin-bottom: 25px;
-    color: #333;
+    color: #fff;
     font-size: 28px;
     font-weight: 600;
 }
@@ -30,7 +30,7 @@
     background-color: #ffffff;
     font-size: 16px;
     font-weight: 500;
-    color: #555;
+    color: #555; /* Set text color to a dark color */
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
 }

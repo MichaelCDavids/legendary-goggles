@@ -3,64 +3,61 @@ import { useParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from './firebase';
 import Spinner from './Spinner';
+import MarketNews from './MarketNews';
 import './SignalDetailPage.css';
 
 const SignalDetailPage = () => {
-  const { signalId } = useParams();
-  const [signal, setSignal] = useState(null);
+  const { id } = useParams();
+  const [trade, setTrade] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const fetchSignal = async () => {
-      try {
-        const docRef = doc(db, 'signals', signalId);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          setSignal({ id: docSnap.id, ...docSnap.data() });
-        } else {
-          console.log("No such document!");
-        }
-      } catch (error) {
-        console.error("Error fetching document: ", error);
-      } finally {
-        setLoading(false);
+    const fetchTrade = async () => {
+      const tradeDoc = await getDoc(doc(db, 'signals', id));
+      if (tradeDoc.exists()) {
+        setTrade(tradeDoc.data());
       }
+      setLoading(false);
     };
 
-    fetchSignal();
-  }, [signalId]);
+    fetchTrade();
+  }, [id]);
 
-  const toDate = (timestamp) => {
-    if (timestamp && timestamp.seconds) {
-      return new Date(timestamp.seconds * 1000).toLocaleString();
-    }
-    return 'N/A';
+  const copyToClipboard = () => {
+    const tradeDetails = `Asset: ${trade.asset}\nDirection: ${trade.direction}\nEntry Price: ${trade.entryPrice}\nStop Loss: ${trade.stopLoss}\nTake Profit: ${trade.takeProfit}`;
+    navigator.clipboard.writeText(tradeDetails).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
   };
 
-  if (loading) return <Spinner />;
-  if (!signal) return <p>Signal not found.</p>;
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (!trade) {
+    return <p>Trade not found.</p>;
+  }
 
   return (
-    <div className="signal-detail-container">
-      <h2>Signal Details</h2>
-      <div className="signal-info-grid">
-        <p><strong>Asset:</strong> {signal.asset}</p>
-        <p><strong>Order Type:</strong> {signal.orderType}</p>
-        <p><strong>Volume:</strong> {signal.volume}</p>
-        <p><strong>Entry Point:</strong> {signal.entryPoint}</p>
-        <p><strong>Take Profit:</strong> {signal.takeProfit}</p>
-        <p><strong>Stop Loss:</strong> {signal.stopLoss}</p>
-        <p><strong>Timeframe:</strong> {signal.timeframe}</p>
-        <p><strong>Required Tier:</strong> {signal.requiredTier}</p>
-        <p><strong>Posted At:</strong> {toDate(signal.createdAt)}</p>
-        <p><strong>Risk/Reward Ratio:</strong> {signal.riskRewardRatio}</p>
-        <p><strong>Signal Provider:</strong> {signal.signalProvider}</p>
-        <p><strong>Confidence Level:</strong> {signal.confidenceLevel}</p>
+    <div className="signal-detail-page">
+      <div className="bento-box">
+        <div className="signal-header">
+          <h2>{trade.asset}</h2>
+          <button onClick={copyToClipboard} className="copy-button">
+            {copied ? 'Copied!' : 'Copy Trade'}
+          </button>
+        </div>
+        <p><strong>Direction:</strong> {trade.direction}</p>
+        <p><strong>Entry Price:</strong> {trade.entryPrice}</p>
+        <p><strong>Stop Loss:</strong> {trade.stopLoss}</p>
+        <p><strong>Take Profit:</strong> {trade.takeProfit}</p>
+        <p><strong>Status:</strong> {trade.status}</p>
       </div>
-      <div className="market-analysis">
-        <h3>Market Analysis</h3>
-        <p>{signal.marketAnalysis || 'No analysis provided.'}</p>
+      <div className="bento-box">
+        <h3>Market News</h3>
+        <MarketNews asset={trade.asset} />
       </div>
     </div>
   );
