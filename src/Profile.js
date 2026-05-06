@@ -3,8 +3,7 @@ import { UserContext } from './UserContext';
 import { auth, db } from './firebase';
 import { updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import './AuthForm.css';
-
+import './App.css';
 const Profile = () => {
   const { user, refreshUser } = useContext(UserContext);
   const [displayName, setDisplayName] = useState('');

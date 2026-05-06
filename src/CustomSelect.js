@@ -1,6 +1,5 @@
 import React from 'react';
-import './CustomSelect.css';
-
+import './App.css';
 const CustomSelect = ({ label, name, value, onChange, children }) => {
   return (
     <div className="custom-select-wrapper">

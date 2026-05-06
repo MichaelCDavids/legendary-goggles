@@ -1,5 +1,5 @@
 import React from 'react';
-import './Admin.css';
+import './App.css';
 import SignalForm from './SignalForm';
 
 const Admin = () => {

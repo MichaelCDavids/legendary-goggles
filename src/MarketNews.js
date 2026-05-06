@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import API_KEY from './config';
-import './MarketNews.css';
-
+import './App.css';
 const MarketNews = ({ asset }) => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);

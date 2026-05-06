@@ -1,6 +1,5 @@
 import React from 'react';
-import './Terms.css';
-
+import './App.css';
 const Terms = () => {
   return (
     <div className="terms-page">

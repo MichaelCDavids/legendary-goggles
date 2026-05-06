@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { trades } from './mockData';
-import './TradesPage.css';
-
+import './App.css';
 const TradesPage = () => {
   const openTrades = trades.filter(trade => trade.status === 'Open');
   const closedTrades = trades.filter(trade => trade.status === 'Closed');

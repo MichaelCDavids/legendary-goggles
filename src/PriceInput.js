@@ -1,6 +1,5 @@
 import React from 'react';
-import './PriceInput.css';
-
+import './App.css';
 const PriceInput = ({ label, name, value, onChange }) => {
   const handleStep = (step) => {
     const currentValue = parseFloat(value) || 0;

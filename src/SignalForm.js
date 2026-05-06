@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { db, storage } from './firebase'; // Import storage
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadString, getDownloadURL } from 'firebase/storage'; // Import storage functions
-import './SignalForm.css';
-import { UserContext } from './UserContext';
+import './App.css';import { UserContext } from './UserContext';
 import PriceInput from './PriceInput';
 import CustomSelect from './CustomSelect';
 

@@ -1,53 +1,32 @@
 
 .trade-card {
-  background-color: #1a1a1a;
-  border-radius: 8px;
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  transition: box-shadow 0.3s ease;
+    background-color: var(--bento-bg);
+    border-radius: 12px;
+    padding: 20px;
+    color: var(--primary-text);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .trade-card:hover {
-  box-shadow: 0 0 15px rgba(220, 53, 69, 0.5);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
-.trade-info h3 {
-  margin: 0 0 10px;
-  color: #fff;
-  font-size: 1.4em;
+.trade-card h3 {
+    margin-top: 0;
+    color: var(--accent-color);
 }
 
-.trade-info p {
-  margin: 5px 0;
-  font-size: 1em;
-  color: #ccc;
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    .trade-card {
+        padding: 15px;
+    }
 }
 
-.trade-qr {
-  background-color: white;
-  padding: 10px;
-  border-radius: 5px;
-  color: #000;
-}
-
-.trade-card-link {
-  text-decoration: none;
-  color: inherit;
-}
-
-.trade-card.locked {
-  background-color: #555;
-  justify-content: center;
-  text-align: center;
-}
-
-.trade-card.locked .trade-info h3 {
-  color: #888;
-}
-
-.trade-card.locked p {
-  color: #ccc;
+@media (max-width: 480px) {
+    .trade-card {
+        padding: 10px;
+    }
 }

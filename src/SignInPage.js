@@ -3,95 +3,15 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from './UserContext';
 import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  RecaptchaVerifier,
-  signInWithPhoneNumber,
-} from 'firebase/auth';
-import { auth, db } from './firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import './Auth.css';
+  signInWithGoogle,
+  signInWithEmail,
+  setUpRecaptcha,
+  signInWithPhone,
+  verifyPhoneCode,
+} from './authFunctions';
+import './App.css';
 
-
-// Sign in with Google
-export const signInWithGoogle = async () => {
-  const provider = new GoogleAuthProvider();
-  const result = await signInWithPopup(auth, provider);
-  const user = result.user;
-  const userDoc = await getDoc(doc(db, 'users', user.uid));
-  const isNewUser = !userDoc.exists();
-  if (isNewUser) {
-    await setDoc(doc(db, 'users', user.uid), {
-      email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      createdAt: new Date(),
-    });
-  }
-  return { user, isNewUser };
-};
-
-// Sign up with email and password
-export const signUpWithEmail = async (email, password) => {
-  const result = await createUserWithEmailAndPassword(auth, email, password);
-  const user = result.user;
-  const isNewUser = !(await getDoc(doc(db, 'users', user.uid))).exists();
-  if (isNewUser) {
-    await setDoc(doc(db, 'users', user.uid), {
-      email: user.email,
-      createdAt: new Date(),
-    });
-  }
-  return { user, isNewUser };
-};
-
-// Sign in with email and password
-export const signInWithEmail = async (email, password) => {
-  const result = await signInWithEmailAndPassword(auth, email, password);
-  const user = result.user;
-  const isNewUser = !(await getDoc(doc(db, 'users', user.uid))).exists();
-  return { user, isNewUser };
-};
-
-// Set up reCAPTCHA for phone authentication
-export const setUpRecaptcha = (containerId) => {
-  return new RecaptchaVerifier(auth, containerId, {
-    size: 'invisible',
-    callback: (response) => {
-      // reCAPTCHA solved, allow signInWithPhoneNumber.
-      console.log('reCAPTCHA solved');
-    },
-  });
-};
-
-
-// Sign in with phone number
-export const signInWithPhone = async (phone, recaptcha) => {
-  const confirmationResult = await signInWithPhoneNumber(auth, phone, recaptcha);
-  return confirmationResult;
-};
-
-
-// Verify phone verification code
-export const verifyPhoneCode = async (confirmationResult, code) => {
-  const result = await confirmationResult.confirm(code);
-  const user = result.user;
-  const userDoc = await getDoc(doc(db, 'users', user.uid));
-  const isNewUser = !userDoc.exists();
-  if (isNewUser) {
-    await setDoc(doc(db, 'users', user.uid), {
-      phoneNumber: user.phoneNumber,
-      createdAt: new Date(),
-    });
-  }
-  return { user, isNewUser };
-};
-
-
-const Auth = () => {
-  const [isSignUp, setIsSignUp] = useState(false);
+const SignInPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
@@ -120,8 +40,7 @@ const Auth = () => {
     e.preventDefault();
     setError('');
     try {
-      const authFunc = isSignUp ? signUpWithEmail : signInWithEmail;
-      const { user, isNewUser } = await authFunc(email, password);
+      const { user, isNewUser } = await signInWithEmail(email, password);
       setUser(user);
       if (isNewUser) {
         navigate('/complete-profile');
@@ -182,7 +101,7 @@ const Auth = () => {
           <form onSubmit={handleEmailAuth}>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-            <button type="submit">{isSignUp ? 'Sign Up' : 'Sign In'}</button>
+            <button type="submit">Sign In</button>
           </form>
         );
       case 'phone':
@@ -207,16 +126,15 @@ const Auth = () => {
   return (
     <div className="auth-container">
       <div className="auth-box">
-        <h2>{isSignUp ? 'Create Account' : 'Sign In'}</h2>
+        <h2>Sign In</h2>
         {error && <p className="error-message">{error}</p>}
         {renderAuthMethod()}
         <p className="toggle-auth">
-          {isSignUp ? 'Already have an account?' : "Don't have an account?"}
-          <button onClick={() => setIsSignUp(!isSignUp)}>{isSignUp ? 'Sign In' : 'Sign Up'}</button>
+          Don't have an account? <button onClick={() => navigate('/signup')}>Sign Up</button>
         </p>
       </div>
     </div>
   );
 };
 
-export default Auth;
+export default SignInPage;

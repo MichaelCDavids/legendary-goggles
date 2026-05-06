@@ -3,8 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from './firebase';
 import Spinner from './Spinner';
-import './SignalPostConfirmation.css';
-
+import './App.css';
 const SignalPostConfirmation = () => {
   const { signalId } = useParams();
   const [signal, setSignal] = useState(null);

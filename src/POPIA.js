@@ -1,6 +1,5 @@
 import React from 'react';
-import './POPIA.css';
-
+import './App.css';
 const POPIA = () => {
   return (
     <div className="popia-container">

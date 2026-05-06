@@ -9,7 +9,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <h1>Dashboard</h1>
-      <div className="dashboard-summary">
+      <div className="dashboard-grid">
         <div className="summary-card">
           <h2>Open Trades</h2>
           <p>{openTrades}</p>

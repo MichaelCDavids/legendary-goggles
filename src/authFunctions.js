@@ -23,6 +23,8 @@ export const signInWithGoogle = async () => {
       displayName: user.displayName,
       photoURL: user.photoURL,
       createdAt: new Date(),
+      role: 'user',
+      tier: 'free',
     });
   }
   return { user, isNewUser };
@@ -37,6 +39,8 @@ export const signUpWithEmail = async (email, password) => {
     await setDoc(doc(db, 'users', user.uid), {
       email: user.email,
       createdAt: new Date(),
+      role: 'user',
+      tier: 'free',
     });
   }
   return { user, isNewUser };
@@ -79,6 +83,8 @@ export const verifyPhoneCode = async (confirmationResult, code) => {
     await setDoc(doc(db, 'users', user.uid), {
       phoneNumber: user.phoneNumber,
       createdAt: new Date(),
+      role: 'user',
+      tier: 'free',
     });
   }
   return { user, isNewUser };

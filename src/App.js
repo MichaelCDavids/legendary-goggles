@@ -25,12 +25,15 @@ function App() {
       <div className={`App-drawer ${isMenuOpen ? 'open' : ''}`}>
         <button className="close-menu" onClick={closeMenu}>×</button>
         <nav>
-          <Link to="/auth" onClick={closeMenu}>Sign In</Link>
+          <Link to="/" onClick={closeMenu}>Home</Link>
           <Link to="/dashboard" onClick={closeMenu}>Dashboard</Link>
           <Link to="/trades" onClick={closeMenu}>Trades</Link>
+          <Link to="/signal/1" onClick={closeMenu}>Signal 1</Link>          
           <Link to="/about" onClick={closeMenu}>About</Link>
           <Link to="/terms" onClick={closeMenu}>Terms</Link>
           <Link to="/faq" onClick={closeMenu}>FAQ</Link>
+          <Link to="/admin" onClick={closeMenu}>Admin</Link>
+          <Link to="/profile" onClick={closeMenu}>Profile</Link>
         </nav>
       </div>
       <main className="main-content">

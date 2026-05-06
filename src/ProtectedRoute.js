@@ -1,22 +1,6 @@
-import React, { useContext } from 'react';
-import { Navigate } from 'react-router-dom';
-import { UserContext } from './UserContext';
+import React from 'react';
 
-const ProtectedRoute = ({ children, role }) => {
-  const { user, role: userRole, loading } = useContext(UserContext);
-
-  if (loading) {
-    return <div>Loading...</div>; 
-  }
-
-  if (!user) {
-    return <Navigate to="/signin" />;
-  }
-
-  if (role && userRole !== role) {
-    return <Navigate to="/not-authorized" />;
-  }
-
+const ProtectedRoute = ({ children }) => {
   return children;
 };
 

@@ -2,8 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { trades } from './mockData';
 import MarketNews from './MarketNews';
-import './SignalDetailPage.css';
-
+import './App.css';
 const SignalDetailPage = () => {
   const { id } = useParams();
   const trade = trades.find(t => t.id === parseInt(id));

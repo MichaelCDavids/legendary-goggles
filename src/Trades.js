@@ -4,7 +4,6 @@ import { db } from './firebase';
 import SignalCard from './SignalCard';
 import { UserContext } from './UserContext';
 import './Trades.css';
-
 const assetGroups = {
   Metals: ["XAUUSD", "XAGUSD"],
   Indices: ["US30", "NAS100", "SPX500"],
@@ -57,7 +56,7 @@ const Trades = () => {
           </select>
         </div>
       </div>
-      <div className="trades-list">
+      <div className="trades-grid">
         {paginatedTrades.map((trade) => (
           <SignalCard key={trade.id} trade={trade} membership={membership.name} />
         ))}
